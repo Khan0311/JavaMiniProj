@@ -1,0 +1,62 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+
+class Student {
+    private static int idCounter = 1;
+
+    private String studentId;
+    private String name;
+    private ArrayList<String> courses;
+    private double balance;
+
+    public Student(String name) {
+        this.studentId = String.format("%05d", idCounter++);
+        this.name = name;
+        this.courses = new ArrayList<>();
+        this.balance = 0;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void enroll(String course) {
+        courses.add(course);
+        System.out.println(name + " enrolled in " + course);
+    }
+
+    public void viewStatus() {
+        System.out.println("ID: " + studentId + ", Name: " + name + ", Courses: " + courses + ", Balance: $" + balance);
+    }
+
+    public void payTuition(double amount) {
+        balance -= amount;
+        System.out.println(name + " paid $" + amount + ". Remaining balance: $" + balance);
+    }
+}
+
+class StudentManagement {
+    private static Map<String, Student> students = new HashMap<>();
+
+    public static void addStudent(String name) {
+        Student newStudent = new Student(name);
+        students.put(newStudent.getStudentId(), newStudent);
+        System.out.println("Student added - ID: " + newStudent.getStudentId() + ", Name: " + name);
+    }
+
+    public static void main(String[] args) {
+        addStudent("John Doe");
+
+        Student john = students.get("00001");
+        john.enroll("Math");
+        john.enroll("History");
+        john.viewStatus();
+
+        addStudent("Jane Smith");
+
+        Student jane = students.get("00002");
+        jane.enroll("Science");
+        jane.viewStatus();
+    }
+}
